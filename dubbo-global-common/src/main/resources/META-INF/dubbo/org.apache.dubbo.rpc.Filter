@@ -1,0 +1,1 @@
+global_exception_filter=com.szw.dubbo.plugin.common.filter.GlobalExceptionFilter
