@@ -33,7 +33,7 @@ public class GlobalExceptionFilter implements Filter {
 					if (throwable instanceof BizException e) {
 						return buildNewResult(invocation, e);
 					}
-					else if (throwable instanceof Exception e) {
+					if (throwable instanceof Exception e) {
 						return buildNewResult(invocation, wrapException(e));
 					}
 				}
