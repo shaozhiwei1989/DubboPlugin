@@ -23,6 +23,7 @@ import org.apache.dubbo.rpc.Invocation;
 import org.apache.dubbo.rpc.Invoker;
 import org.apache.dubbo.rpc.Result;
 import org.apache.dubbo.rpc.RpcException;
+import org.apache.dubbo.rpc.RpcInvocation;
 import org.hibernate.validator.HibernateValidator;
 
 import org.springframework.validation.annotation.Validated;
@@ -70,7 +71,12 @@ public class ValidationFilter implements Filter {
 
 		if (!allValidatedMap.isEmpty()) {
 			String validMsgStr = formatValidMsg(allValidatedMap);
-			return buildValidMsgResult(invocation, validMsgStr);
+			if (invocation instanceof RpcInvocation ri) {
+				if (ri.getReturnTypes()[0] == ServiceResponse.class) {
+					return buildValidMsgResult(invocation, validMsgStr);
+				}
+			}
+			throw new RpcException(validMsgStr);
 		}
 
 		return invoker.invoke(invocation);
