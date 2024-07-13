@@ -11,6 +11,7 @@ import org.apache.dubbo.rpc.Invocation;
 import org.apache.dubbo.rpc.Invoker;
 import org.apache.dubbo.rpc.Result;
 import org.apache.dubbo.rpc.RpcException;
+import org.apache.dubbo.rpc.RpcInvocation;
 
 
 @Activate(order = 2)
@@ -27,11 +28,15 @@ public class GlobalExceptionFilter implements Filter {
 
 			log.error(methodName, throwable);
 
-			if (throwable instanceof BizException e) {
-				return buildNewResult(invocation, e);
-			}
-			else if (throwable instanceof Exception e) {
-				return buildNewResult(invocation, wrapException(e));
+			if (invocation instanceof RpcInvocation ri) {
+				if (ri.getReturnTypes()[0] == ServiceResponse.class) {
+					if (throwable instanceof BizException e) {
+						return buildNewResult(invocation, e);
+					}
+					else if (throwable instanceof Exception e) {
+						return buildNewResult(invocation, wrapException(e));
+					}
+				}
 			}
 		}
 		return result;
