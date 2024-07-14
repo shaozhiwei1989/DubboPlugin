@@ -103,7 +103,10 @@ public class ValidationFilter implements Filter {
 		StringJoiner joiner = new StringJoiner(", ");
 		allValidatedMap.forEach((k, v) -> {
 			StringJoiner inner = new StringJoiner(", ");
-			v.forEach(violation -> inner.add(String.format("{%s:[%s]}", violation.getPropertyPath(), violation.getMessage())));
+			v.forEach(violation -> {
+				String s = String.format("{%s:[%s]}", violation.getPropertyPath(), violation.getMessage());
+				inner.add(s);
+			});
 			joiner.add("参数" + (k + 1) + ":" + inner);
 		});
 		return joiner.toString();
