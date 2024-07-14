@@ -45,10 +45,6 @@ public class ValidationFilter implements Filter {
 
 	@Override
 	public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
-		if (invocation == null) {
-			return invoker.invoke(null);
-		}
-
 		Object[] args = invocation.getArguments();
 		if (args == null || args.length == 0) {
 			return invoker.invoke(invocation);
