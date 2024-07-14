@@ -1,7 +1,6 @@
 package com.szw.dubbo.plugin.validation.filter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,7 +83,7 @@ public class ValidationFilter implements Filter {
 
 		List<Class<?>> list = new ArrayList<>();
 		if (validGroup != null && validGroup.value() != null) {
-			list.addAll(Arrays.asList(validGroup.value()));
+			list.addAll(List.of(validGroup.value()));
 		}
 		return list;
 	}
